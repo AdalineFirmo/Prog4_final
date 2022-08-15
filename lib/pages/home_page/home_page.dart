@@ -36,6 +36,9 @@ class _HomePageState extends State<HomePage> {
     if (int.tryParse(input) == null) {
       return 'Informe um número inteiro';
     }
+    if (int.parse(input) < 1 || int.parse(input) > 20) {
+      return 'Informe um número entre 1 e 20';
+    }
     return null;
   }
 
