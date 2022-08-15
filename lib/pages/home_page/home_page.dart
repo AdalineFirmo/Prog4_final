@@ -152,7 +152,16 @@ class _HomePageState extends State<HomePage> {
                                     debugPrint('${data[index]['url']}');
                                     Navigator.of(context).pushNamed(
                                         AppRoutes.detail,
-                                        arguments: {});
+                                        arguments: {
+                                          'imageUrl': data[index]['url'],
+                                          'title': data[index]['title'],
+                                          'date': data[index]['date'],
+                                          'description': data[index]
+                                              ['explanation'],
+                                          'copyright': data[index]
+                                                  ['copyright'] ??
+                                              'Sem copyright',
+                                        });
                                   },
                                   child: Card(
                                     elevation: 5,
