@@ -60,9 +60,26 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: const Color(0xFF2B3351),
       appBar: AppBar(
+        leading: Row(
+          children: [
+            IconButton(
+              icon: const Icon(Icons.people),
+              onPressed: () {},
+            ),
+          ],
+        ),
+        flexibleSpace: Container(
+          decoration: const BoxDecoration(
+            gradient: LinearGradient(
+                begin: Alignment.topLeft,
+                end: Alignment.bottomRight,
+                colors: <Color>[Color(0xFF7162FC), Color(0xFFB245F2)]),
+          ),
+        ),
         centerTitle: true,
-        title: const Text('Nasa Photo of the Day'),
+        title: const Text('Astronomy Picture of the Day'),
       ),
       body: Column(
         children: [
@@ -76,16 +93,23 @@ class _HomePageState extends State<HomePage> {
                     key: _formKey,
                     child: TextFormField(
                       decoration: const InputDecoration(
+                        fillColor: Colors.white,
                         labelText: 'Quantidade de imagens',
+                        labelStyle: TextStyle(color: Colors.white),
                       ),
                       keyboardType: TextInputType.number,
                       controller: _imagesQuantityController,
                       validator: _imagesQuantityValidator,
                       textInputAction: TextInputAction.next,
+                      style: TextStyle(color: Colors.white),
                     ),
                   ),
                 ),
-                ElevatedButton(onPressed: _submit, child: const Text('Salvar'))
+                ElevatedButton(
+                  onPressed: _submit,
+                  child: const Text('Salvar'),
+                  style: ElevatedButton.styleFrom(primary: Color(0xFF7162FC)),
+                )
               ],
             ),
           ),
@@ -108,19 +132,61 @@ class _HomePageState extends State<HomePage> {
                         itemCount: snapshot.data!.length,
                         itemBuilder: (contex, index) {
                           return ListTile(
-                            title: Container(
-                              height: 150,
-                              decoration: BoxDecoration(
-                                  border: Border.all(color: Colors.black),
-                                  borderRadius: BorderRadius.circular(10)),
-                              child: Image.network(
-                                snapshot.data![index]['url'],
-                                fit: BoxFit.fill,
+                            title: InkWell(
+                              onTap: () {
+                                debugPrint('${snapshot.data![index]['url']}');
+                              },
+                              child: Card(
+                                elevation: 5,
+                                color: Colors.white,
+                                clipBehavior: Clip.antiAlias,
+                                child: Column(
+                                  children: [
+                                    SizedBox(
+                                      height: 150,
+                                      width: double.infinity,
+                                      child: Image.network(
+                                        snapshot.data![index]['url'],
+                                        fit: BoxFit.cover,
+                                      ),
+                                    ),
+                                    Container(
+                                      padding: const EdgeInsets.only(
+                                          left: 5, top: 5),
+                                      width: double.infinity,
+                                      child: Text(
+                                        snapshot.data![index]['date'],
+                                        textAlign: TextAlign.start,
+                                        style: TextStyle(
+                                            fontSize: 12,
+                                            color: Colors.black.withAlpha(150)),
+                                      ),
+                                    ),
+                                    const Divider(
+                                      indent: 5,
+                                      endIndent: 305,
+                                      thickness: 2,
+                                      color: Color(0xFF9156F6),
+                                    ),
+                                    Text(
+                                      snapshot.data![index]['title'],
+                                      style: TextStyle(
+                                          color: Colors.black.withAlpha(150)),
+                                    ),
+                                    Container(
+                                      padding: const EdgeInsets.only(
+                                          right: 10, bottom: 10),
+                                      alignment: Alignment.centerRight,
+                                      height: 30,
+                                      width: double.infinity,
+                                      child: const Icon(
+                                        Icons.touch_app,
+                                        color: Color(0xFF756EA2),
+                                      ),
+                                    )
+                                  ],
+                                ),
                               ),
-                            ),
-                            subtitle: Text(
-                              '${snapshot.data![index]['title']}\n${snapshot.data![index]['date']}',
-                              textAlign: TextAlign.center,
                             ),
                           );
                         },
