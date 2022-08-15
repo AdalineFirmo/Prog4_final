@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:prog4_avaliacao3/core/app_routes.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -14,13 +15,15 @@ class _HomePageState extends State<HomePage> {
   final _formKey = GlobalKey<FormState>();
   final _imagesQuantityController = TextEditingController();
   int numberOfImagesToBeLoaded = 5;
+  bool isLoading = true;
 
   Future<List> fetchData() async {
     var uri =
-        'https://api.nasa.gov/planetary/apod?count=$numberOfImagesToBeLoaded&api_key=EfDC81je4ESlMwsiVcwq7uDxmO66DJg98o3sbtue';
+        'https://api.nasa.gov/planetary/apod?thumbs=false&count=$numberOfImagesToBeLoaded&api_key=EfDC81je4ESlMwsiVcwq7uDxmO66DJg98o3sbtue';
     var url = Uri.parse(uri);
     var response = await http.get(url);
     if (response.statusCode == 200) {
+      isLoading = false;
       return jsonDecode(response.body);
     } else {
       throw Exception('Erro ao carregar dados');
@@ -104,14 +107,16 @@ class _HomePageState extends State<HomePage> {
                       controller: _imagesQuantityController,
                       validator: _imagesQuantityValidator,
                       textInputAction: TextInputAction.next,
-                      style: TextStyle(color: Colors.white),
+                      style: const TextStyle(color: Colors.white),
                     ),
                   ),
                 ),
                 ElevatedButton(
                   onPressed: _submit,
+                  style: ElevatedButton.styleFrom(
+                    primary: const Color(0xFF7162FC),
+                  ),
                   child: const Text('Salvar'),
-                  style: ElevatedButton.styleFrom(primary: Color(0xFF7162FC)),
                 )
               ],
             ),
@@ -125,83 +130,100 @@ class _HomePageState extends State<HomePage> {
                       child: Text('Error: ${snapshot.error}'),
                     );
                   }
-                  if (snapshot.hasData) {
-                    return RefreshIndicator(
-                      onRefresh: () async {
-                        await Future.delayed(const Duration(seconds: 1));
-                        setState(() {});
-                      },
-                      child: ListView.builder(
-                        itemCount: snapshot.data!.length,
-                        itemBuilder: (contex, index) {
-                          return ListTile(
-                            title: InkWell(
-                              onTap: () {
-                                debugPrint('${snapshot.data![index]['url']}');
-                              },
-                              child: Card(
-                                elevation: 5,
-                                color: Colors.white,
-                                clipBehavior: Clip.antiAlias,
-                                child: Column(
-                                  children: [
-                                    SizedBox(
-                                      height: 150,
-                                      width: double.infinity,
-                                      child: Image.network(
-                                        snapshot.data![index]['url'],
-                                        fit: BoxFit.cover,
-                                      ),
+
+                  return RefreshIndicator(
+                    onRefresh: () {
+                      isLoading = true;
+                      setState(() {});
+                      return Future.value(null);
+                    },
+                    child: isLoading
+                        ? const Center(
+                            child: CircularProgressIndicator(),
+                          )
+                        : ListView.builder(
+                            itemCount: snapshot.data!.length,
+                            itemBuilder: (contex, index) {
+                              return ListTile(
+                                title: InkWell(
+                                  onTap: () {
+                                    debugPrint(
+                                        '${snapshot.data![index]['url']}');
+                                    Navigator.of(context).pushNamed(
+                                        AppRoutes.detail,
+                                        arguments: {});
+                                  },
+                                  child: Card(
+                                    elevation: 5,
+                                    color: Colors.white,
+                                    clipBehavior: Clip.antiAlias,
+                                    child: Column(
+                                      children: [
+                                        SizedBox(
+                                          height: 150,
+                                          width: double.infinity,
+                                          child: Image.network(
+                                            snapshot.data![index]['url'],
+                                            fit: BoxFit.cover,
+                                          ),
+                                        ),
+                                        Container(
+                                          padding: const EdgeInsets.only(
+                                            left: 5,
+                                            top: 5,
+                                          ),
+                                          width: double.infinity,
+                                          child: Text(
+                                            'Data ${snapshot.data![index]['date']}',
+                                            textAlign: TextAlign.start,
+                                            style: TextStyle(
+                                                fontSize: 12,
+                                                color: Colors.black
+                                                    .withAlpha(150)),
+                                          ),
+                                        ),
+                                        const Divider(
+                                          indent: 5,
+                                          endIndent: 305,
+                                          thickness: 2,
+                                          color: Color(0xFF9156F6),
+                                        ),
+                                        Text(
+                                          snapshot.data![index]['title'],
+                                          style: TextStyle(
+                                              color:
+                                                  Colors.black.withAlpha(150)),
+                                        ),
+                                        Container(
+                                          padding: const EdgeInsets.only(
+                                              right: 10, bottom: 10),
+                                          alignment: Alignment.centerRight,
+                                          height: 30,
+                                          width: double.infinity,
+                                          child: const Icon(
+                                            Icons.touch_app,
+                                            color: Color(0xFF756EA2),
+                                          ),
+                                        )
+                                      ],
                                     ),
-                                    Container(
-                                      padding: const EdgeInsets.only(
-                                          left: 5, top: 5),
-                                      width: double.infinity,
-                                      child: Text(
-                                        snapshot.data![index]['date'],
-                                        textAlign: TextAlign.start,
-                                        style: TextStyle(
-                                            fontSize: 12,
-                                            color: Colors.black.withAlpha(150)),
-                                      ),
-                                    ),
-                                    const Divider(
-                                      indent: 5,
-                                      endIndent: 305,
-                                      thickness: 2,
-                                      color: Color(0xFF9156F6),
-                                    ),
-                                    Text(
-                                      snapshot.data![index]['title'],
-                                      style: TextStyle(
-                                          color: Colors.black.withAlpha(150)),
-                                    ),
-                                    Container(
-                                      padding: const EdgeInsets.only(
-                                          right: 10, bottom: 10),
-                                      alignment: Alignment.centerRight,
-                                      height: 30,
-                                      width: double.infinity,
-                                      child: const Icon(
-                                        Icons.touch_app,
-                                        color: Color(0xFF756EA2),
-                                      ),
-                                    )
-                                  ],
+                                  ),
                                 ),
-                              ),
-                            ),
-                          );
-                        },
-                      ),
-                    );
-                  }
-                  return const Center(
-                    child: CircularProgressIndicator(),
+                              );
+                            },
+                          ),
                   );
                 }),
           ),
         ],
+      ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          isLoading = true;
+          setState(() {});
+        },
+        backgroundColor: const Color(0xFF9156F6),
+        child: const Icon(Icons.refresh),
       ),
     );
   }
