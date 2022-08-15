@@ -125,6 +125,8 @@ class _HomePageState extends State<HomePage> {
             child: FutureBuilder<List>(
                 future: fetchData(),
                 builder: (context, snapshot) {
+                  final List data = snapshot.data ?? [];
+
                   if (snapshot.hasError) {
                     return Center(
                       child: Text('Error: ${snapshot.error}'),
@@ -142,13 +144,12 @@ class _HomePageState extends State<HomePage> {
                             child: CircularProgressIndicator(),
                           )
                         : ListView.builder(
-                            itemCount: snapshot.data!.length,
+                            itemCount: data.length,
                             itemBuilder: (contex, index) {
                               return ListTile(
                                 title: InkWell(
                                   onTap: () {
-                                    debugPrint(
-                                        '${snapshot.data![index]['url']}');
+                                    debugPrint('${data[index]['url']}');
                                     Navigator.of(context).pushNamed(
                                         AppRoutes.detail,
                                         arguments: {});
@@ -163,7 +164,7 @@ class _HomePageState extends State<HomePage> {
                                           height: 150,
                                           width: double.infinity,
                                           child: Image.network(
-                                            snapshot.data![index]['url'],
+                                            data[index]['url'],
                                             fit: BoxFit.cover,
                                           ),
                                         ),
@@ -174,12 +175,13 @@ class _HomePageState extends State<HomePage> {
                                           ),
                                           width: double.infinity,
                                           child: Text(
-                                            'Data ${snapshot.data![index]['date']}',
+                                            'Data ${data[index]['date']}',
                                             textAlign: TextAlign.start,
                                             style: TextStyle(
-                                                fontSize: 12,
-                                                color: Colors.black
-                                                    .withAlpha(150)),
+                                              fontSize: 12,
+                                              color:
+                                                  Colors.black.withAlpha(150),
+                                            ),
                                           ),
                                         ),
                                         const Divider(
@@ -189,10 +191,10 @@ class _HomePageState extends State<HomePage> {
                                           color: Color(0xFF9156F6),
                                         ),
                                         Text(
-                                          snapshot.data![index]['title'],
+                                          data[index]['title'],
                                           style: TextStyle(
-                                              color:
-                                                  Colors.black.withAlpha(150)),
+                                            color: Colors.black.withAlpha(150),
+                                          ),
                                         ),
                                         Container(
                                           padding: const EdgeInsets.only(
