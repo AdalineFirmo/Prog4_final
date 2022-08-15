@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:prog4_avaliacao3/core/app_routes.dart';
+import 'package:prog4_avaliacao3/pages/home_page/components/astronomy_card.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -146,81 +147,7 @@ class _HomePageState extends State<HomePage> {
                         : ListView.builder(
                             itemCount: data.length,
                             itemBuilder: (contex, index) {
-                              return ListTile(
-                                title: InkWell(
-                                  onTap: () {
-                                    debugPrint('${data[index]['url']}');
-                                    Navigator.of(context).pushNamed(
-                                        AppRoutes.detail,
-                                        arguments: {
-                                          'imageUrl': data[index]['url'],
-                                          'title': data[index]['title'],
-                                          'date': data[index]['date'],
-                                          'description': data[index]
-                                              ['explanation'],
-                                          'copyright': data[index]
-                                                  ['copyright'] ??
-                                              'Sem copyright',
-                                        });
-                                  },
-                                  child: Card(
-                                    elevation: 5,
-                                    color: Colors.white,
-                                    clipBehavior: Clip.antiAlias,
-                                    child: Column(
-                                      children: [
-                                        SizedBox(
-                                          height: 150,
-                                          width: double.infinity,
-                                          child: Image.network(
-                                            data[index]['url'],
-                                            fit: BoxFit.cover,
-                                          ),
-                                        ),
-                                        Container(
-                                          padding: const EdgeInsets.only(
-                                            left: 5,
-                                            top: 5,
-                                          ),
-                                          width: double.infinity,
-                                          child: Text(
-                                            'Data ${data[index]['date']}',
-                                            textAlign: TextAlign.start,
-                                            style: TextStyle(
-                                              fontSize: 12,
-                                              color:
-                                                  Colors.black.withAlpha(150),
-                                            ),
-                                          ),
-                                        ),
-                                        const Divider(
-                                          indent: 5,
-                                          endIndent: 305,
-                                          thickness: 2,
-                                          color: Color(0xFF9156F6),
-                                        ),
-                                        Text(
-                                          data[index]['title'],
-                                          style: TextStyle(
-                                            color: Colors.black.withAlpha(150),
-                                          ),
-                                        ),
-                                        Container(
-                                          padding: const EdgeInsets.only(
-                                              right: 10, bottom: 10),
-                                          alignment: Alignment.centerRight,
-                                          height: 30,
-                                          width: double.infinity,
-                                          child: const Icon(
-                                            Icons.touch_app,
-                                            color: Color(0xFF756EA2),
-                                          ),
-                                        )
-                                      ],
-                                    ),
-                                  ),
-                                ),
-                              );
+                              return AstronomyCard(currentItem: data[index]);
                             },
                           ),
                   );
