@@ -71,29 +71,24 @@ class _HomePageState extends State<HomePage> {
     return Scaffold(
       backgroundColor: kDarkPurple,
       appBar: AppBar(
-        leading: Column(
-          children: [
-            Stack(
-              alignment: AlignmentDirectional.bottomCenter,
-              children: [
-                IconButton(
-                  icon: const Icon(Icons.people),
-                  onPressed: () {
-                    showModalBottomSheet<void>(
-                      context: context,
-                      builder: (BuildContext context) {
-                        return const TeamPlayersModal();
-                      },
-                    );
-                  },
-                ),
-                const Text(
-                  'Equipe',
-                  style: TextStyle(fontSize: 13),
-                )
-              ],
-            ),
-          ],
+        leading: InkWell(
+          onTap: () {
+            showModalBottomSheet<void>(
+              context: context,
+              builder: (BuildContext context) {
+                return const TeamPlayersModal();
+              },
+            );
+          },
+          child: Column(
+            children: const [
+              Icon(Icons.people),
+              Text(
+                'Equipe',
+                style: TextStyle(fontSize: 13),
+              ),
+            ],
+          ),
         ),
         flexibleSpace: Container(
           decoration: const BoxDecoration(

@@ -4,8 +4,7 @@ import 'package:prog4_avaliacao3/core/app_routes.dart';
 
 class AstronomyCard extends StatelessWidget {
   final Map currentItem;
-  final String imgNotFound =
-      'https://raw.githubusercontent.com/tvlas/mycard-app/main/assets/img/dafaultthumb.jpg?token=GHSAT0AAAAAABW5D75ZMWUDKRTVEJRKOED4YX3SGRQ';
+  final String imgNotFound = 'https://i.imgur.com/QQ98IZy.jpeg';
 
   const AstronomyCard({Key? key, required this.currentItem}) : super(key: key);
 
@@ -47,7 +46,7 @@ class AstronomyCard extends StatelessWidget {
                 ),
                 width: double.infinity,
                 child: Text(
-                  DateFormat('dd MMMM yyyy')
+                  DateFormat.yMMMMd('pt_BR')
                       .format(DateTime.parse(currentItem['date']))
                       .toString(),
                   textAlign: TextAlign.start,

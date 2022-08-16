@@ -15,7 +15,7 @@ class DetailPage extends StatelessWidget {
         actions: [
           Center(
             child: Text(
-              DateFormat('dd MMMM yyyy')
+              DateFormat.yMMMMd('pt_BR')
                   .format(DateTime.parse(receivedData['date']))
                   .toString(),
             ),
