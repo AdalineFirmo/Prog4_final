@@ -2,8 +2,9 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
-import 'package:prog4_avaliacao3/core/app_routes.dart';
+import 'package:prog4_avaliacao3/core/colors.dart';
 import 'package:prog4_avaliacao3/pages/home_page/components/astronomy_card.dart';
+import 'package:prog4_avaliacao3/pages/home_page/components/team_players_modal.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -67,22 +68,29 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color(0xFF2B3351),
+      backgroundColor: kDarkPurple,
       appBar: AppBar(
         leading: Row(
           children: [
             IconButton(
-              icon: const Icon(Icons.people),
-              onPressed: () {},
-            ),
+                icon: const Icon(Icons.people),
+                onPressed: () {
+                  showModalBottomSheet<void>(
+                    context: context,
+                    builder: (BuildContext context) {
+                      return const TeamPlayersModal();
+                    },
+                  );
+                }),
           ],
         ),
         flexibleSpace: Container(
           decoration: const BoxDecoration(
             gradient: LinearGradient(
-                begin: Alignment.topLeft,
-                end: Alignment.bottomRight,
-                colors: <Color>[Color(0xFF7162FC), Color(0xFFB245F2)]),
+              begin: Alignment.topLeft,
+              end: Alignment.bottomRight,
+              colors: <Color>[kPurple, kAccentColor],
+            ),
           ),
         ),
         centerTitle: true,
@@ -100,22 +108,22 @@ class _HomePageState extends State<HomePage> {
                     key: _formKey,
                     child: TextFormField(
                       decoration: const InputDecoration(
-                        fillColor: Colors.white,
+                        fillColor: kWhite,
                         labelText: 'Quantidade de imagens',
-                        labelStyle: TextStyle(color: Colors.white),
+                        labelStyle: TextStyle(color: kWhite),
                       ),
                       keyboardType: TextInputType.number,
                       controller: _imagesQuantityController,
                       validator: _imagesQuantityValidator,
                       textInputAction: TextInputAction.next,
-                      style: const TextStyle(color: Colors.white),
+                      style: const TextStyle(color: kWhite),
                     ),
                   ),
                 ),
                 ElevatedButton(
                   onPressed: _submit,
                   style: ElevatedButton.styleFrom(
-                    primary: const Color(0xFF7162FC),
+                    primary: kPurple,
                   ),
                   child: const Text('Salvar'),
                 )
@@ -160,7 +168,7 @@ class _HomePageState extends State<HomePage> {
           isLoading = true;
           setState(() {});
         },
-        backgroundColor: const Color(0xFF9156F6),
+        backgroundColor: kPurple,
         child: const Icon(Icons.refresh),
       ),
     );
