@@ -55,6 +55,7 @@ class _HomePageState extends State<HomePage> {
     String numOfImages = _imagesQuantityController.text;
 
     setState(() {
+      isLoading = true;
       numberOfImagesToBeLoaded = int.parse(numOfImages);
     });
   }
