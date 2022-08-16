@@ -77,6 +77,7 @@ class AmimationFeature extends StatelessWidget {
                         textStyle: const TextStyle(
                           fontSize: 35,
                           fontWeight: FontWeight.w700,
+                          fontFamily: 'FredokaOne',
                         ),
                       ),
                     ],

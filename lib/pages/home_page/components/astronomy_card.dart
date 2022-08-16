@@ -17,7 +17,7 @@ class AstronomyCard extends StatelessWidget {
             'title': currentItem['title'],
             'date': currentItem['date'],
             'description': currentItem['explanation'],
-            'copyright': currentItem['copyright'] ?? 'Sem copyright',
+            'copyright': currentItem['copyright'] ?? 'Sem direitos autorais',
           });
         },
         child: Card(
