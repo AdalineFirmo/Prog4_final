@@ -2,9 +2,9 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
-import 'package:prog4_avaliacao3/core/colors.dart';
-import 'package:prog4_avaliacao3/pages/home_page/components/astronomy_card.dart';
-import 'package:prog4_avaliacao3/pages/home_page/components/team_players_modal.dart';
+import '/core/colors.dart';
+import '/pages/home_page/components/astronomy_card.dart';
+import '/pages/home_page/components/team_players_modal.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -71,18 +71,28 @@ class _HomePageState extends State<HomePage> {
     return Scaffold(
       backgroundColor: kDarkPurple,
       appBar: AppBar(
-        leading: Row(
+        leading: Column(
           children: [
-            IconButton(
-                icon: const Icon(Icons.people),
-                onPressed: () {
-                  showModalBottomSheet<void>(
-                    context: context,
-                    builder: (BuildContext context) {
-                      return const TeamPlayersModal();
-                    },
-                  );
-                }),
+            Stack(
+              alignment: AlignmentDirectional.bottomCenter,
+              children: [
+                IconButton(
+                  icon: const Icon(Icons.people),
+                  onPressed: () {
+                    showModalBottomSheet<void>(
+                      context: context,
+                      builder: (BuildContext context) {
+                        return const TeamPlayersModal();
+                      },
+                    );
+                  },
+                ),
+                const Text(
+                  'Equipe',
+                  style: TextStyle(fontSize: 13),
+                )
+              ],
+            ),
           ],
         ),
         flexibleSpace: Container(

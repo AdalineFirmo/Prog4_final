@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:prog4_avaliacao3/core/colors.dart';
+import '/core/colors.dart';
 
 class DetailPage extends StatelessWidget {
   const DetailPage({Key? key}) : super(key: key);
@@ -13,7 +13,7 @@ class DetailPage extends StatelessWidget {
       appBar: AppBar(
         elevation: 0,
         backgroundColor: kDarkPurple,
-        title: Text('Voltar'),
+        title: const Text('Voltar'),
       ),
       body: Center(
         child: Column(children: [
@@ -66,15 +66,16 @@ class DetailPage extends StatelessWidget {
             ),
           ),
           //Text(receivedData['date']),
-          Container(
-            color: kDarkPurple.withAlpha(200),
-            height: MediaQuery.of(context).size.height * .48,
-            child: SingleChildScrollView(
-              padding: const EdgeInsets.all(15),
-              child: Text(
-                receivedData['description'],
-                textAlign: TextAlign.left,
-                style: const TextStyle(fontSize: 18, color: kWhite),
+          Expanded(
+            child: Container(
+              color: kDarkPurple.withAlpha(200),
+              child: SingleChildScrollView(
+                padding: const EdgeInsets.all(15),
+                child: Text(
+                  receivedData['description'],
+                  textAlign: TextAlign.left,
+                  style: const TextStyle(fontSize: 18, color: kWhite),
+                ),
               ),
             ),
           ),
