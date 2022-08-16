@@ -3,6 +3,8 @@ import 'package:prog4_avaliacao3/core/app_routes.dart';
 
 class AstronomyCard extends StatelessWidget {
   final Map currentItem;
+  final String imgNotFound =
+      'https://raw.githubusercontent.com/tvlas/mycard-app/main/assets/img/dafaultthumb.jpg?token=GHSAT0AAAAAABW5D75ZMWUDKRTVEJRKOED4YX3SGRQ';
 
   const AstronomyCard({Key? key, required this.currentItem}) : super(key: key);
 
@@ -30,7 +32,10 @@ class AstronomyCard extends StatelessWidget {
                 height: 150,
                 width: double.infinity,
                 child: Image.network(
-                  currentItem['url'],
+                  currentItem['url'].contains(".jpg") ||
+                          currentItem['url'].contains(".gif")
+                      ? currentItem['url']
+                      : imgNotFound,
                   fit: BoxFit.cover,
                 ),
               ),
