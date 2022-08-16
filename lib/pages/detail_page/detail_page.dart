@@ -11,6 +11,14 @@ class DetailPage extends StatelessWidget {
 
     return Scaffold(
       appBar: AppBar(
+        actions: [
+          Center(
+            child: Text(receivedData['date']),
+          ),
+          const SizedBox(
+            width: 10,
+          )
+        ],
         elevation: 0,
         backgroundColor: kDarkPurple,
         title: const Text('Voltar'),
