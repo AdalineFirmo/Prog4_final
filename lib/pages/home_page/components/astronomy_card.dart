@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:prog4_avaliacao3/core/app_routes.dart';
 
 class AstronomyCard extends StatelessWidget {
@@ -46,7 +47,9 @@ class AstronomyCard extends StatelessWidget {
                 ),
                 width: double.infinity,
                 child: Text(
-                  'Data ${currentItem['date']}',
+                  DateFormat('dd MMMM yyyy')
+                      .format(DateTime.parse(currentItem['date']))
+                      .toString(),
                   textAlign: TextAlign.start,
                   style: TextStyle(
                     fontSize: 12,

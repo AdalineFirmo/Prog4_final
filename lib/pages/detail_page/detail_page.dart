@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import '/core/colors.dart';
 
 class DetailPage extends StatelessWidget {
@@ -13,7 +14,11 @@ class DetailPage extends StatelessWidget {
       appBar: AppBar(
         actions: [
           Center(
-            child: Text(receivedData['date']),
+            child: Text(
+              DateFormat('dd MMMM yyyy')
+                  .format(DateTime.parse(receivedData['date']))
+                  .toString(),
+            ),
           ),
           const SizedBox(
             width: 10,
