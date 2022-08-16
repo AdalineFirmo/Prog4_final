@@ -1,7 +1,7 @@
 # Integrantes:
 * Matheus da Costa da Silva
-* Adaline Nogueira
-* Thiago Vinicius
+* Adaline Nogueira Fernandes Firmo
+* Thiago Vinicios Lima de Araujo Sousa
 
 > Atenção! Pode ser que seja preciso dar um pub get para ele baixar as dependências.
 

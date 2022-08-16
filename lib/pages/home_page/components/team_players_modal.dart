@@ -23,9 +23,11 @@ class TeamPlayersModal extends StatelessWidget {
             Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: const [
+                Text('Adaline Nogueira Fernandes Firmo'),
+                Divider(),
                 Text('Matheus da Costa da Silva'),
-                Text('Adaline Nogueira'),
-                Text('Thiago Vinicius'),
+                Divider(),
+                Text('Thiago Vinicios Lima de Araujo Sousa'),
               ],
             ),
             const Spacer(),
