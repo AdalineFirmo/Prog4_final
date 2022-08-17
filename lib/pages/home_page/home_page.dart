@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:prog4_avaliacao3/pages/home_page/components/error_presenter.dart';
 import '/core/colors.dart';
 import '/pages/home_page/components/astronomy_card.dart';
 import '/pages/home_page/components/team_players_modal.dart';
@@ -20,16 +21,35 @@ class _HomePageState extends State<HomePage> {
   bool isLoading = true;
 
   Future<List> fetchData() async {
+    // 400 'Bad Request: incorrect field passed.'
+    // 400 'Bad Request: invalid field combination passed.'
+    // 400 str(ex) + "." -> In case of other errors
+    // 404 'Sorry, Nothing at this URL.'
+    // 500 'Internal Service Error'
+    // 500 'Sorry, unexpected error: {}'.format(e) -> In case of other errors
+
     var uri =
         'https://api.nasa.gov/planetary/apod?thumbs=false&count=$numberOfImagesToBeLoaded&api_key=EfDC81je4ESlMwsiVcwq7uDxmO66DJg98o3sbtue';
     var url = Uri.parse(uri);
     var response = await http.get(url);
+    isLoading = false;
+
     if (response.statusCode == 200) {
-      isLoading = false;
       return jsonDecode(response.body);
-    } else {
-      throw Exception('Erro ao carregar dados');
+    } else if (response.statusCode == 200) {
+      showDialog(
+        context: context,
+        builder: (_) => const ErrorPresenter(message: 'Problema com servidor'),
+      );
+    } else if (response.statusCode == 400) {
+      showDialog(
+        context: context,
+        builder: (_) => const ErrorPresenter(
+          message: 'Campo errado informado',
+        ),
+      );
     }
+    throw Exception('Erro ao carregar dados');
   }
 
   String? _imagesQuantityValidator(String? input) {
