@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:prog4_avaliacao3/core/colors.dart';
 
 class ErrorPresenter extends StatelessWidget {
   final String message;

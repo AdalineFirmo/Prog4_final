@@ -36,7 +36,7 @@ class _HomePageState extends State<HomePage> {
 
     if (response.statusCode == 200) {
       return jsonDecode(response.body);
-    } else if (response.statusCode == 200) {
+    } else if (response.statusCode == 500) {
       showDialog(
         context: context,
         builder: (_) => const ErrorPresenter(message: 'Problema com servidor'),
