@@ -15,8 +15,9 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  final _formKey = GlobalKey<FormState>();
-  final _imagesQuantityController = TextEditingController();
+  List<int> items = List.generate(20, (item) => item + 1);
+  // final _formKey = GlobalKey<FormState>();
+  // final _imagesQuantityController = TextEditingController();
   int numberOfImagesToBeLoaded = 5;
   bool isLoading = true;
 
@@ -52,39 +53,39 @@ class _HomePageState extends State<HomePage> {
     throw Exception('Erro ao carregar dados');
   }
 
-  String? _imagesQuantityValidator(String? input) {
-    input = input ?? '';
+  // String? _imagesQuantityValidator(String? input) {
+  //   input = input ?? '';
 
-    if (input.isEmpty) {
-      return 'Informe a quantidade de imagens antes de submeter';
-    }
-    if (int.tryParse(input) == null) {
-      return 'Informe um número inteiro';
-    }
-    if (int.parse(input) < 1 || int.parse(input) > 20) {
-      return 'Informe um número entre 1 e 20';
-    }
-    return null;
-  }
+  //   if (input.isEmpty) {
+  //     return 'Informe a quantidade de imagens antes de submeter';
+  //   }
+  //   if (int.tryParse(input) == null) {
+  //     return 'Informe um número inteiro';
+  //   }
+  //   if (int.parse(input) < 1 || int.parse(input) > 20) {
+  //     return 'Informe um número entre 1 e 20';
+  //   }
+  //   return null;
+  // }
 
-  void _submit() {
-    if (_formKey.currentState?.validate() != true) {
-      return;
-    }
+  // void _submit() {
+  //   if (_formKey.currentState?.validate() != true) {
+  //     return;
+  //   }
 
-    String numOfImages = _imagesQuantityController.text;
+  //   String numOfImages = _imagesQuantityController.text;
 
-    setState(() {
-      isLoading = true;
-      numberOfImagesToBeLoaded = int.parse(numOfImages);
-    });
-  }
+  //   setState(() {
+  //     isLoading = true;
+  //     numberOfImagesToBeLoaded = int.parse(numOfImages);
+  //   });
+  // }
 
-  @override
-  void dispose() {
-    _imagesQuantityController.dispose();
-    super.dispose();
-  }
+  // @override
+  // void dispose() {
+  //   _imagesQuantityController.dispose();
+  //   super.dispose();
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -121,41 +122,66 @@ class _HomePageState extends State<HomePage> {
         ),
         centerTitle: true,
         title: const Text('Astronomy Picture of the Day'),
+        actions: [
+          DropdownButton<int>(
+            iconSize: 22,
+            icon: const Icon(Icons.photo),
+            iconEnabledColor: Colors.white,
+            dropdownColor: const Color(0xFF2B3351),
+            underline: Container(),
+            menuMaxHeight: MediaQuery.of(context).size.height * 0.3,
+            items: items
+                .map((item) => DropdownMenuItem<int>(
+                      value: item,
+                      child: Text(
+                        '$item',
+                        style: const TextStyle(color: Colors.white),
+                      ),
+                    ))
+                .toList(),
+            value: numberOfImagesToBeLoaded,
+            onChanged: ((item) => setState(() {
+                  numberOfImagesToBeLoaded = item!;
+                  isLoading = true;
+                })),
+          ),
+          const SizedBox(width: 10),
+        ],
       ),
       body: Column(
         children: [
-          Padding(
-            padding: const EdgeInsets.all(16.0),
-            child: Row(
-              children: [
-                SizedBox(
-                  width: MediaQuery.of(context).size.width * 0.7,
-                  child: Form(
-                    key: _formKey,
-                    child: TextFormField(
-                      decoration: const InputDecoration(
-                        fillColor: kWhite,
-                        labelText: 'Quantidade de imagens',
-                        labelStyle: TextStyle(color: kWhite),
-                      ),
-                      keyboardType: TextInputType.number,
-                      controller: _imagesQuantityController,
-                      validator: _imagesQuantityValidator,
-                      textInputAction: TextInputAction.next,
-                      style: const TextStyle(color: kWhite),
-                    ),
-                  ),
-                ),
-                ElevatedButton(
-                  onPressed: _submit,
-                  style: ElevatedButton.styleFrom(
-                    primary: kPurple,
-                  ),
-                  child: const Text('Salvar'),
-                )
-              ],
-            ),
-          ),
+          // Padding(
+          //   padding: const EdgeInsets.all(16.0),
+          //   child: Row(
+          //     children: [
+          //       SizedBox(
+          //         width: MediaQuery.of(context).size.width * 0.7,
+          //         child: Form(
+          //           key: _formKey,
+          //           child: TextFormField(
+          //             decoration: const InputDecoration(
+          //               fillColor: kWhite,
+          //               labelText: 'Quantidade de imagens',
+          //               labelStyle: TextStyle(color: kWhite),
+          //             ),
+          //             keyboardType: TextInputType.number,
+          //             controller: _imagesQuantityController,
+          //             validator: _imagesQuantityValidator,
+          //             textInputAction: TextInputAction.next,
+          //             style: const TextStyle(color: kWhite),
+          //           ),
+          //         ),
+          //       ),
+          //       ElevatedButton(
+          //         onPressed: _submit,
+          //         style: ElevatedButton.styleFrom(
+          //           primary: kPurple,
+          //         ),
+          //         child: const Text('Salvar'),
+          //       )
+          //     ],
+          //   ),
+          // ),
           Expanded(
             child: FutureBuilder<List>(
                 future: fetchData(),
